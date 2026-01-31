@@ -74,6 +74,8 @@
     <string name="sms_description">தொடர்புகளுக்கு அவசரகால SMS அனுப்ப</string>
     <string name="call_permission">தொலைபேசி அழைப்பு</string>
     <string name="call_description">அவசரகால அழைப்புகளைச் செய்ய</string>
+    <string name="notification_permission">அறிவிப்புகள்</string>
+    <string name="notification_description">அவசரகால அறிவிப்புகள் மற்றும் நிலை புதுப்பிப்புகளைப் பெறுங்கள்</string>
     <string name="required">தேவையான</string>
     <string name="optional">விருப்பமான</string>
     <string name="enable_continue">இயக்கி தொடரவும்</string>

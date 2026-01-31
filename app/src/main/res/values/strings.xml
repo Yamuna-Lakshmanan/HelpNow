@@ -72,8 +72,10 @@
     <string name="camera_description">Send photo evidence with emergency alert</string>
     <string name="sms_permission">SMS</string>
     <string name="sms_description">Send emergency SMS to contacts</string>
-    <string name="call_permission">Call Phone</string>
+    <string name="call_permission">Phone Calls</string>
     <string name="call_description">Make emergency calls</string>
+    <string name="notification_permission">Notifications</string>
+    <string name="notification_description">Receive emergency alerts and status updates</string>
     <string name="required">Required</string>
     <string name="optional">Optional</string>
     <string name="enable_continue">ENABLE &amp; CONTINUE</string>

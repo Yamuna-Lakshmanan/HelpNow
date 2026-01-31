@@ -378,7 +378,7 @@
     <string name="call_notification_incoming_text">Incoming call</string>
     <string name="call_notification_ongoing_text">Ongoing call</string>
     <string name="call_notification_screening_text">Screening an incoming call</string>
-    <string name="call_permission">Call Phone</string>
+    <string name="call_permission">Phone Calls</string>
     <string name="camera_description">Send photo evidence with emergency alert</string>
     <string name="camera_permission">Camera</string>
     <string name="cancel">Cancel</string>
@@ -503,6 +503,8 @@
     <string name="navigation_menu">"Navigation menu"</string>
     <string name="next">NEXT</string>
     <string name="not_selected">Not selected</string>
+    <string name="notification_description">Receive emergency alerts and status updates</string>
+    <string name="notification_permission">Notifications</string>
     <string name="off">Off</string>
     <string name="ok">OK</string>
     <string name="on">On</string>

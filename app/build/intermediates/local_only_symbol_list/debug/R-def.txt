@@ -111,6 +111,8 @@ string microphone_description
 string microphone_permission
 string min_contacts_required
 string next
+string notification_description
+string notification_permission
 string ok
 string optional
 string other

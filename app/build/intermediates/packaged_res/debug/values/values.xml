@@ -52,7 +52,7 @@
     <string name="app_permissions_required">App Permissions Required</string>
     <string name="back">Back</string>
     <string name="call_description">Make emergency calls</string>
-    <string name="call_permission">Call Phone</string>
+    <string name="call_permission">Phone Calls</string>
     <string name="camera_description">Send photo evidence with emergency alert</string>
     <string name="camera_permission">Camera</string>
     <string name="cancel">Cancel</string>
@@ -111,6 +111,8 @@
     <string name="microphone_permission">Voice Recognition</string>
     <string name="min_contacts_required">You must add at least 3 contacts</string>
     <string name="next">NEXT</string>
+    <string name="notification_description">Receive emergency alerts and status updates</string>
+    <string name="notification_permission">Notifications</string>
     <string name="ok">OK</string>
     <string name="optional">Optional</string>
     <string name="other">Other</string>

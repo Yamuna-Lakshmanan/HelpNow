@@ -1193,6 +1193,8 @@ string min_contacts_required
 string navigation_menu
 string next
 string not_selected
+string notification_description
+string notification_permission
 string off
 string ok
 string on
