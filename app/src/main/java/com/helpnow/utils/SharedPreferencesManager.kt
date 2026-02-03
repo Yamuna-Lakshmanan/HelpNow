@@ -27,6 +27,15 @@ class SharedPreferencesManager private constructor(context: Context) {
         private const val KEY_PERMISSION_SMS = "permissionSMS"
         private const val KEY_PERMISSION_CALL = "permissionCall"
         
+        // Module 2 - Voice Guard
+        private const val KEY_VOICE_GUARD_ENABLED = "voiceGuardEnabled"
+        private const val KEY_USER_VOICEPRINT = "userVoiceprint"
+        private const val KEY_LAST_DETECTION_TIME = "lastDetectionTime"
+        private const val KEY_FALSE_ALARMS_TODAY = "falseAlarmsToday"
+        private const val KEY_FALSE_ALARMS_DATE = "falseAlarmsDate"
+        private const val KEY_VOICE_SERVICE_STATUS = "voiceServiceStatus"
+        private const val KEY_CUSTOM_DANGER_PHRASE = "customDangerPhrase"
+        
         @Volatile
         private var INSTANCE: SharedPreferencesManager? = null
         
@@ -155,4 +164,63 @@ class SharedPreferencesManager private constructor(context: Context) {
         } catch (e: Exception) {
         }
     }
+    
+    // Module 2 - Voice Guard
+    fun isVoiceGuardEnabled(): Boolean = try { prefs.getBoolean(KEY_VOICE_GUARD_ENABLED, true) } catch (e: Exception) { true }
+    
+    fun setVoiceGuardEnabled(enabled: Boolean) {
+        try { prefs.edit().putBoolean(KEY_VOICE_GUARD_ENABLED, enabled).apply() } catch (e: Exception) { }
+    }
+    
+    fun getUserVoiceprint(): String? = try { prefs.getString(KEY_USER_VOICEPRINT, null) } catch (e: Exception) { null }
+    
+    fun saveUserVoiceprint(voiceprintHash: String) {
+        try { prefs.edit().putString(KEY_USER_VOICEPRINT, voiceprintHash).apply() } catch (e: Exception) { }
+    }
+    
+    fun getLastDetectionTime(): Long = try { prefs.getLong(KEY_LAST_DETECTION_TIME, 0L) } catch (e: Exception) { 0L }
+    
+    fun setLastDetectionTime(time: Long) {
+        try { prefs.edit().putLong(KEY_LAST_DETECTION_TIME, time).apply() } catch (e: Exception) { }
+    }
+    
+    fun getFalseAlarmsToday(): Int {
+        return try {
+            val savedDate = prefs.getString(KEY_FALSE_ALARMS_DATE, null)
+            val today = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
+                .format(java.util.Date())
+            if (savedDate != today) 0
+            else prefs.getInt(KEY_FALSE_ALARMS_TODAY, 0)
+        } catch (e: Exception) { 0 }
+    }
+    
+    fun incrementFalseAlarmsToday() {
+        try {
+            val today = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
+                .format(java.util.Date())
+            val current = getFalseAlarmsToday()
+            prefs.edit()
+                .putInt(KEY_FALSE_ALARMS_TODAY, current + 1)
+                .putString(KEY_FALSE_ALARMS_DATE, today)
+                .apply()
+        } catch (e: Exception) { }
+    }
+    
+    fun getVoiceServiceStatus(): String = try {
+        prefs.getString(KEY_VOICE_SERVICE_STATUS, "stopped") ?: "stopped"
+    } catch (e: Exception) { "stopped" }
+    
+    fun setVoiceServiceStatus(status: String) {
+        try { prefs.edit().putString(KEY_VOICE_SERVICE_STATUS, status).apply() } catch (e: Exception) { }
+    }
+    
+    fun getCustomDangerPhrase(): String = try {
+        prefs.getString(KEY_CUSTOM_DANGER_PHRASE, "I'm in danger") ?: "I'm in danger"
+    } catch (e: Exception) { "I'm in danger" }
+    
+    fun saveCustomDangerPhrase(phrase: String) {
+        try { prefs.edit().putString(KEY_CUSTOM_DANGER_PHRASE, phrase.trim()).apply() } catch (e: Exception) { }
+    }
+    
+    fun incrementFalseAlarms() = incrementFalseAlarmsToday()
 }

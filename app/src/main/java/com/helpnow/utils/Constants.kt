@@ -59,4 +59,15 @@ object Constants {
     
     const val GENDER_MALE = "Male"
     const val GENDER_FEMALE = "Female"
+    
+    // Module 2 - Voice Guard
+    const val VOICE_CANCEL_TIMEOUT_MS = 5000L
+    const val VOICE_CONFIDENCE_THRESHOLD = 0.8f
+    const val VOICE_SILENCE_THRESHOLD_DB = -30f
+    const val VOICE_SILENCE_DURATION_MS = 30_000L
+    const val VOICE_PAUSE_DURATION_MS = 10_000L
+    const val VOICE_SAMPLE_DURATION_MS = 10_000L
+    const val VOICE_REGISTRATION_SAMPLES = 3
+    const val EMERGENCY_DEMO_NUMBER = "9999999999"
+    const val EMERGENCY_NUMBER = "112"
 }

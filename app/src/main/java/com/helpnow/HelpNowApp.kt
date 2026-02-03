@@ -18,6 +18,8 @@ sealed class Screen(val route: String) {
     object OTPVerification : Screen("otp_verification")
     object UserProfile : Screen("user_profile")
     object EmergencyContacts : Screen("emergency_contacts")
+    object DangerPhraseConfig : Screen("danger_phrase_config")
+    object VoiceRegistration : Screen("voice_registration")
     object Permissions : Screen("permissions")
     object EmergencyHome : Screen("emergency_home")
     object ContactsTab : Screen("contacts_tab")
@@ -112,6 +114,22 @@ fun HelpNowApp(
             EmergencyContactsScreen(
                 onNextClick = { contacts ->
                     emergencyContacts = contacts
+                    navController.navigate(Screen.DangerPhraseConfig.route)
+                },
+                onBackClick = { navController.popBackStack() }
+            )
+        }
+        
+        composable(Screen.DangerPhraseConfig.route) {
+            DangerPhraseConfigScreen(
+                onNextClick = { navController.navigate(Screen.VoiceRegistration.route) },
+                onBackClick = { navController.popBackStack() }
+            )
+        }
+        
+        composable(Screen.VoiceRegistration.route) {
+            VoiceRegistrationScreen(
+                onNextClick = {
                     navController.navigate(Screen.Permissions.route)
                 },
                 onBackClick = { navController.popBackStack() }

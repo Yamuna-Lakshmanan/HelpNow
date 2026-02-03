@@ -126,6 +126,45 @@
     <string name="share_location">Share Location</string>
     <string name="current_coordinates">Current Coordinates</string>
     
+    <!-- Module 2 - Voice Guard -->
+    <string name="voice_guard_active">HelpNow Voice Guard Active ✓</string>
+    <string name="listening_for_phrase">Listening for emergency phrases…</string>
+    <string name="stop_listening">Stop Listening</string>
+    <string name="voice_guard_channel">Voice Guard</string>
+    <string name="cancel_sos">CANCEL SOS</string>
+    <string name="voice_sos_detected">VOICE SOS DETECTED</string>
+    <string name="say_test_phrase">Say test phrase</string>
+    <string name="false_alarms_today">%d false alarms today</string>
+    <string name="voice_guard_label">Voice Guard</string>
+    <string name="listening_actively">Listening actively ✓</string>
+    <string name="voice_guard_paused">Paused</string>
+    <string name="voice_guard_stopped">Stopped</string>
+    <string name="voice_registration_title">Voice Registration</string>
+    <string name="voice_registration_instruction">Say the phrase to register your voice. We\'ll use it to verify only you can trigger emergency alerts.</string>
+    <string name="voice_registration_phrase">I\'m in danger 5</string>
+    <string name="voice_registration_sample">Sample %1$d of %2$d</string>
+    <string name="voiceprint_saved">Voiceprint saved ✓</string>
+    <string name="save_voiceprint">Save voiceprint</string>
+    <string name="record_sample">Record sample</string>
+    <string name="record_next_sample">Record next sample</string>
+    <string name="microphone_permission_required">Microphone permission required</string>
+    <string name="calling_police">Calling police…</string>
+    <string name="emergency_triggered">Emergency alert triggered</string>
+    <string name="emergency_trigger_failed">Emergency trigger failed</string>
+    <string name="permission_call_denied">Permission denied: Cannot call police</string>
+    <string name="police_call_failed">Failed to initiate police call</string>
+    <string name="police_number">9176074517</string>
+    <string name="emergency_active_title">EMERGENCY ACTIVE</string>
+    <string name="emergency_active_message">Police called. SMS + location sent to contacts.</string>
+    <string name="listening_for_phrases">Listening for emergency phrases…</string>
+    <string name="voice_verified">Voice verified - emergency confirmed</string>
+    <string name="voice_not_verified">Voice not verified</string>
+    <string name="false_alarm_logged">False alarm recorded</string>
+    <string name="danger_phrase_label">Danger phrase</string>
+    <string name="danger_phrase_hint">e.g. I\'m in danger, help me now</string>
+    <string name="danger_phrase_digit_required">Must end with digit 0-9</string>
+    <string name="save_danger_phrase">Save phrase</string>
+    
     <!-- Common -->
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>

@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.helpnow.app-mergeDebugResources-57:/values-v23/values-v23.xml",
+            "outputFile": "com.helpnow.app-mergeDebugResources-58:/values-v23/values-v23.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Welcome\\.gradle\\caches\\transforms-3\\7c6a6834abbfd4e3a8f7f46272ab8256\\transformed\\appcompat-1.6.1\\res\\values-v23\\values-v23.xml",
+                    "source": "C:\\Users\\yamuy\\.gradle\\caches\\transforms-3\\7c6a6834abbfd4e3a8f7f46272ab8256\\transformed\\appcompat-1.6.1\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,20,34,35,36,39,43,44,45,46",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",

@@ -21,8 +21,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.helpnow.R
+import com.helpnow.voice.VoiceGuardViewModel
 import com.helpnow.utils.Constants
 import kotlinx.coroutines.delay
 
@@ -131,6 +134,7 @@ fun EmergencyHomeScreen(
             0 -> EmergencyTabContent(
                 contactCount = contactCount,
                 scale = scale,
+                voiceGuardViewModel = viewModel(factory = VoiceGuardViewModel.Factory(LocalContext.current.applicationContext)),
                 onSOSClick = {
                     showEmergencyDialog = true
                     countdown = Constants.EMERGENCY_COUNTDOWN_SECONDS
@@ -176,6 +180,7 @@ fun EmergencyHomeScreen(
 fun EmergencyTabContent(
     contactCount: Int,
     scale: Float,
+    voiceGuardViewModel: VoiceGuardViewModel,
     onSOSClick: () -> Unit,
     onVoiceHelpClick: () -> Unit,
     onContactsClick: () -> Unit,
@@ -199,6 +204,8 @@ fun EmergencyTabContent(
             color = colorResource(id = R.color.success),
             fontWeight = FontWeight.Medium
         )
+        
+        VoiceGuardStatus(viewModel = voiceGuardViewModel)
         
         Spacer(modifier = Modifier.weight(1f))
         
