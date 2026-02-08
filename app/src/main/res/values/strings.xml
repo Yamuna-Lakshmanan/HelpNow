@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HelpNow</string>
+
+    <!-- Track Me Home -->
+    <string name="track_me_home">TRACK ME HOME</string>
+    <string name="track_me_subtext">Live tracking + periodic check-ins</string>
+    <string name="stop_tracking">STOP TRACKING</string>
+    <string name="check_in_progress">Check-in %1$d/%2$d complete</string>
+    <string name="start_tracking_confirm_title">Start live tracking?</string>
+    <string name="start_tracking_confirm_message">Check-ins every 7 minutes.</string>
+    <string name="cancel">Cancel</string>
+    <string name="start">Start</string>
+
+    <!-- Notification -->
+    <string name="track_me_channel_name">Track Me</string>
+    <string name="track_me_notification_title">HelpNow - Tracking you safely</string>
+    <string name="track_me_notification_text">Check-in %1$d/%2$d complete | Destination: Home</string>
+    <string name="track_me_notification_eta">Check-in %1$d/%2$d complete | ETA: %3$s</string>
+    <string name="notification_action_stop">Stop Tracking</string>
+    <string name="notification_action_safe">I\'m Safe</string>
+    <string name="tracking_progress">Tracking progress</string>
+
+    <!-- Check-in overlay -->
+    <string name="are_you_safe">Are you safe?</string>
+    <string name="yes_im_safe">YES, I\'M SAFE</string>
+    <string name="no_help_me">NO, HELP ME</string>
+    <string name="check_in_count">Check-in %1$d/%2$d</string>
+
+    <!-- Emergency -->
+    <string name="calling_emergency">CALLING 112…</string>
+    <string name="emergency_sms_sent">Emergency SMS sent to %d contacts</string>
+    <string name="cancel_emergency">Cancel Emergency</string>
+    <string name="emergency_active">Emergency Active</string>
+
+    <!-- Home / Geofence -->
+    <string name="welcome_home">Welcome home! Tracking stopped safely ✓</string>
+    <string name="destination_home">Home</string>
+
+    <!-- Check-in history -->
+    <string name="check_in_history">Check-in History</string>
+    <string name="response_yes">YES</string>
+    <string name="response_no">NO</string>
+    <string name="response_timeout">TIMEOUT</string>
+    <string name="status_safe">Safe</string>
+    <string name="status_emergency_triggered">Emergency Triggered</string>
+    <string name="no_check_ins_yet">No check-ins yet</string>
+</resources>
