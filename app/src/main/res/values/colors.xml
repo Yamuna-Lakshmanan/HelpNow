@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Colors from the 'main' branch theme -->
+    <color name="primary">#2196F3</color>
+    <color name="primary_dark">#1976D2</color>
+    <color name="secondary">#26A69A</color>
+    <color name="error">#F44336</color>
+    <color name="success">#4CAF50</color>
+    <color name="warning">#FF9800</color>
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="background">#FFFFFF</color>
+    <color name="surface">#F5F5F5</color>
+    <color name="gray">#757575</color>
+    <color name="light_gray">#E0E0E0</color>
+    <color name="black">#000000</color>
+    <color name="sos_red">#FF5252</color>
+
+    <!-- Colors from the 'venish' branch features -->
     <color name="track_me_green">#4CAF50</color>
     <color name="track_me_red">#F44336</color>
     <color name="check_in_blue">#2196F3</color>
     <color name="black_overlay">#CC000000</color>
+
+    <!-- Common color -->
     <color name="white">#FFFFFF</color>
 </resources>

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.helpnow.app'
+    namespace 'com.helpnow.app' // Kept the more specific namespace from the 'venish' branch
     compileSdk 34
 
     defaultConfig {
@@ -18,6 +18,7 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+        // This line was added from the 'venish' branch
         buildConfigField "boolean", "USE_DEMO_EMERGENCY_NUMBER", "true"
     }
 
@@ -25,6 +26,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // This line was added from the 'venish' branch
             buildConfigField "boolean", "USE_DEMO_EMERGENCY_NUMBER", "false"
         }
     }
@@ -40,6 +42,7 @@ android {
     
     buildFeatures {
         compose true
+        // This line was added from the 'venish' branch
         buildConfig true
     }
     
