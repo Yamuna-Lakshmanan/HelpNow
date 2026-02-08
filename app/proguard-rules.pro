@@ -1,6 +1,6 @@
 # Add project specific ProGuard rules here.
 # You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
+# aaptOptions setting in build.gradle.
 #
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
@@ -20,11 +20,16 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+# --- Rules from the 'main' branch ---
 # Keep Gson classes
 -keep class com.google.gson.** { *; }
 -keep class com.helpnow.models.** { *; }
 
-# Keep data classes
+# Keep data classes that use Gson annotations
 -keepclassmembers class * {
     @com.google.gson.annotations.SerializedName <fields>;
 }
+
+# --- Rule from the 'venish' branch ---
+# Keep all classes in the app's main package
+-keep class com.helpnow.app.** { *; }
