@@ -26,7 +26,8 @@ fun SettingsTabScreen(
     onBackClick: () -> Unit,
     onLanguageToggle: () -> Unit,
     isEnglish: Boolean,
-    onLogout: () -> Unit
+    onLogout: () -> Unit,
+    onCheckInHistoryClick: () -> Unit
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
     val prefsManager = remember { SharedPreferencesManager.getInstance(context) }
@@ -158,6 +159,12 @@ fun SettingsTabScreen(
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         color = colorResource(id = R.color.text_primary)
+                    )
+                    
+                    SettingsItem(
+                        icon = Icons.Default.History,
+                        title = stringResource(id = R.string.check_in_history),
+                        onClick = onCheckInHistoryClick
                     )
                     
                     SettingsItem(

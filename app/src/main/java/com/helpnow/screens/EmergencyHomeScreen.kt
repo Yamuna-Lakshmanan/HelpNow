@@ -25,28 +25,29 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.helpnow.R
+import com.helpnow.emergency.EmergencyManager
+import com.helpnow.ui.TrackMeButton
 import com.helpnow.voice.VoiceGuardViewModel
 import com.helpnow.utils.Constants
+import com.helpnow.trackme.TrackMeViewModel
 import kotlinx.coroutines.delay
 
 @Composable
 fun EmergencyHomeScreen(
-    contactCount: Int,
-    selectedTab: Int,
-    onTabSelected: (Int) -> Unit,
-    onSOSClick: () -> Unit,
-    onVoiceHelpClick: () -> Unit,
-    onContactsClick: () -> Unit,
-    onMapClick: () -> Unit,
-    onSettingsClick: () -> Unit,
-    onLanguageToggle: () -> Unit,
-    isEnglish: Boolean,
-    onLogout: () -> Unit
+    navController: androidx.navigation.NavController,
+    prefsManager: com.helpnow.utils.SharedPreferencesManager,
+    onInitializeVoiceListener: () -> Unit
 ) {
+    val context = LocalContext.current
+    val vm: TrackMeViewModel = viewModel()
+    val emergencyManager = remember { EmergencyManager(context) }
+    var selectedTab by remember { mutableStateOf(0) }
+    var isEnglish by remember { mutableStateOf(true) }
+
     var showEmergencyDialog by remember { mutableStateOf(false) }
     var countdown by remember { mutableStateOf(Constants.EMERGENCY_COUNTDOWN_SECONDS) }
     var countdownActive by remember { mutableStateOf(false) }
-    
+
     val infiniteTransition = rememberInfiniteTransition(label = "pulse")
     val scale by infiniteTransition.animateFloat(
         initialValue = 1.0f,
@@ -60,7 +61,7 @@ fun EmergencyHomeScreen(
         ),
         label = "sos_scale"
     )
-    
+
     LaunchedEffect(countdownActive) {
         if (countdownActive && countdown > 0) {
             while (countdown > 0) {
@@ -68,13 +69,13 @@ fun EmergencyHomeScreen(
                 countdown--
             }
             if (countdown == 0 && showEmergencyDialog) {
-                onSOSClick()
+                emergencyManager.triggerEmergency()
                 showEmergencyDialog = false
                 countdownActive = false
             }
         }
     }
-    
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -103,7 +104,7 @@ fun EmergencyHomeScreen(
                     fontWeight = FontWeight.Bold,
                     color = colorResource(id = R.color.white)
                 )
-                
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -122,17 +123,17 @@ fun EmergencyHomeScreen(
                             color = colorResource(id = R.color.white),
                             fontWeight = if (selectedTab == index) FontWeight.Bold else FontWeight.Normal,
                             modifier = Modifier
-                                .clickable { onTabSelected(index) }
+                                .clickable { selectedTab = index }
                                 .padding(vertical = 8.dp)
                         )
                     }
                 }
             }
         }
-        
+
         when (selectedTab) {
             0 -> EmergencyTabContent(
-                contactCount = contactCount,
+                contactCount = prefsManager.getEmergencyContacts().size,
                 scale = scale,
                 voiceGuardViewModel = viewModel(factory = VoiceGuardViewModel.Factory(LocalContext.current.applicationContext)),
                 onSOSClick = {
@@ -140,24 +141,31 @@ fun EmergencyHomeScreen(
                     countdown = Constants.EMERGENCY_COUNTDOWN_SECONDS
                     countdownActive = true
                 },
-                onVoiceHelpClick = onVoiceHelpClick,
-                onContactsClick = onContactsClick,
-                onMapClick = onMapClick,
-                onSettingsClick = onSettingsClick,
-                onLanguageToggle = onLanguageToggle,
-                isEnglish = isEnglish
+                onVoiceHelpClick = onInitializeVoiceListener,
+                onContactsClick = { selectedTab = 1 },
+                onMapClick = { navController.navigate("map") },
+                onSettingsClick = { selectedTab = 2 },
+                onLanguageToggle = { isEnglish = !isEnglish },
+                isEnglish = isEnglish,
+                vm = vm
             )
             1 -> ContactsTabScreen(
-                onBackClick = { onTabSelected(0) }
+                onBackClick = { selectedTab = 0 }
             )
             2 -> SettingsTabScreen(
-                onBackClick = { onTabSelected(0) },
-                onLanguageToggle = onLanguageToggle,
+                onBackClick = { selectedTab = 0 },
+                onLanguageToggle = { isEnglish = !isEnglish },
                 isEnglish = isEnglish,
-                onLogout = onLogout
+                onLogout = {
+                    prefsManager.clearAllData()
+                    navController.navigate("login") {
+                        popUpTo("emergency_home") { inclusive = true }
+                    }
+                },
+                onCheckInHistoryClick = { navController.navigate("check_in_history") }
             )
         }
-        
+
         if (showEmergencyDialog) {
             EmergencyActivationDialog(
                 countdown = countdown,
@@ -167,7 +175,7 @@ fun EmergencyHomeScreen(
                     countdown = Constants.EMERGENCY_COUNTDOWN_SECONDS
                 },
                 onActivate = {
-                    onSOSClick()
+                    emergencyManager.triggerEmergency()
                     showEmergencyDialog = false
                     countdownActive = false
                 }
@@ -187,28 +195,36 @@ fun EmergencyTabContent(
     onMapClick: () -> Unit,
     onSettingsClick: () -> Unit,
     onLanguageToggle: () -> Unit,
-    isEnglish: Boolean
+    isEnglish: Boolean,
+    vm: TrackMeViewModel
 ) {
+    val isTracking by vm.isTracking.collectAsState()
+    val checkInCount by vm.checkInCount.collectAsState()
+    var showStartConfirmation by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(24.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Spacer(modifier = Modifier.height(32.dp))
-        
         Text(
             text = "$contactCount ${stringResource(id = R.string.emergency_contacts_registered)}",
             fontSize = 14.sp,
             color = colorResource(id = R.color.success),
             fontWeight = FontWeight.Medium
         )
-        
+
         VoiceGuardStatus(viewModel = voiceGuardViewModel)
-        
-        Spacer(modifier = Modifier.weight(1f))
-        
+
+        TrackMeButton(
+            isTracking = isTracking,
+            checkInProgress = if (isTracking) "Check-in in progress ($checkInCount/5)" else "",
+            onStartTracking = { showStartConfirmation = true },
+            onStopTracking = { vm.stopTracking() }
+        )
+
         Button(
             onClick = onSOSClick,
             modifier = Modifier
@@ -227,32 +243,9 @@ fun EmergencyTabContent(
                 color = colorResource(id = R.color.white)
             )
         }
-        
-        Button(
-            onClick = onVoiceHelpClick,
-            modifier = Modifier.size(80.dp),
-            shape = CircleShape,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = colorResource(id = R.color.secondary)
-            )
-        ) {
-            Text(
-                text = stringResource(id = R.string.voice_help),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                color = colorResource(id = R.color.white)
-            )
-        }
-        
-        Text(
-            text = stringResource(id = R.string.emergency_instruction),
-            fontSize = 14.sp,
-            color = colorResource(id = R.color.text_secondary),
-            textAlign = androidx.compose.ui.text.style.TextAlign.Center
-        )
-        
+
         Spacer(modifier = Modifier.weight(1f))
-        
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -289,7 +282,7 @@ fun EmergencyTabContent(
                 )
             }
         }
-        
+
         Text(
             text = if (isEnglish) stringResource(id = R.string.language_eng) else stringResource(id = R.string.language_tamil),
             fontSize = 12.sp,
@@ -297,6 +290,30 @@ fun EmergencyTabContent(
             modifier = Modifier
                 .align(Alignment.End)
                 .clickable { onLanguageToggle() }
+        )
+    }
+
+    if (showStartConfirmation) {
+        AlertDialog(
+            onDismissRequest = { showStartConfirmation = false },
+            title = { Text(text = stringResource(id = R.string.track_me_home)) },
+            text = { Text("Start tracking your location to use the check-in feature.") },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showStartConfirmation = false
+                        vm.startTracking()
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))
+                ) {
+                    Text(text = stringResource(id = R.string.start))
+                }
+            },
+            dismissButton = {
+                OutlinedButton(onClick = { showStartConfirmation = false }) {
+                    Text(text = stringResource(id = R.string.cancel), color = Color.Gray)
+                }
+            }
         )
     }
 }
@@ -326,14 +343,14 @@ fun EmergencyActivationDialog(
                     fontWeight = FontWeight.Bold,
                     color = colorResource(id = R.color.primary)
                 )
-                
+
                 Text(
                     text = stringResource(id = R.string.emergency_alert_description),
                     fontSize = 14.sp,
                     color = colorResource(id = R.color.text_secondary),
                     textAlign = TextAlign.Center
                 )
-                
+
                 if (countdown > 0) {
                     Text(
                         text = "$countdown...",
@@ -342,7 +359,7 @@ fun EmergencyActivationDialog(
                         color = colorResource(id = R.color.error)
                     )
                 }
-                
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -359,7 +376,7 @@ fun EmergencyActivationDialog(
                     ) {
                         Text(stringResource(id = R.string.cancel))
                     }
-                    
+
                     Button(
                         onClick = onActivate,
                         modifier = Modifier

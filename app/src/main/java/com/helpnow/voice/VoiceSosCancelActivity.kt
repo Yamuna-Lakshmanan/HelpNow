@@ -33,13 +33,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.helpnow.R
+import com.helpnow.app.emergency.EmergencyCallManager
 import com.helpnow.utils.Constants
 import com.helpnow.utils.SharedPreferencesManager
 
-/**
- * Full-screen overlay for 5-second cancel window when voice SOS is detected.
- * Cannot be dismissed with back button.
- */
 class VoiceSosCancelActivity : ComponentActivity() {
 
     companion object {
@@ -73,7 +70,6 @@ class VoiceSosCancelActivity : ComponentActivity() {
         }
     }
 
-
     private fun handleCancel() {
         try {
             countDownTimer?.cancel()
@@ -89,7 +85,7 @@ class VoiceSosCancelActivity : ComponentActivity() {
     private fun handleTimeout() {
         try {
             countDownTimer?.cancel()
-            EmergencyTriggerManager(this).triggerEmergency(phrase, confidence)
+            EmergencyCallManager(this).call("8807659591")
         } catch (e: Exception) {
             Log.e(TAG, "handleTimeout error", e)
         }

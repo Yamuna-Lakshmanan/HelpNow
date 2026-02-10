@@ -2,6 +2,8 @@
 <resources>
     <color name="background">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="black_overlay">#CC000000</color>
+    <color name="check_in_blue">#2196F3</color>
     <color name="error">#F44336</color>
     <color name="gray">#757575</color>
     <color name="light_gray">#E0E0E0</color>
@@ -13,6 +15,8 @@
     <color name="surface">#F5F5F5</color>
     <color name="text_primary">#212121</color>
     <color name="text_secondary">#757575</color>
+    <color name="track_me_green">#4CAF50</color>
+    <color name="track_me_red">#F44336</color>
     <color name="warning">#FF9800</color>
     <color name="white">#FFFFFF</color>
     <dimen name="button_corner_radius">12dp</dimen>
@@ -50,14 +54,20 @@
     <string name="app_info">App Info</string>
     <string name="app_name">HelpNow</string>
     <string name="app_permissions_required">App Permissions Required</string>
+    <string name="are_you_safe">Are you safe?</string>
     <string name="back">Back</string>
     <string name="call_description">Make emergency calls</string>
     <string name="call_permission">Phone Calls</string>
+    <string name="calling_emergency">CALLING 112…</string>
     <string name="calling_police">Calling police…</string>
     <string name="camera_description">Send photo evidence with emergency alert</string>
     <string name="camera_permission">Camera</string>
     <string name="cancel">Cancel</string>
+    <string name="cancel_emergency">Cancel Emergency</string>
     <string name="cancel_sos">CANCEL SOS</string>
+    <string name="check_in_count">Check-in %1$d/%2$d</string>
+    <string name="check_in_history">Check-in History</string>
+    <string name="check_in_progress">Check-in %1$d/%2$d complete</string>
     <string name="city_district">City/District</string>
     <string name="complete_profile">Complete Your Profile</string>
     <string name="contact">Contact</string>
@@ -75,16 +85,19 @@
     <string name="dark">Dark</string>
     <string name="date_of_birth">Date of Birth</string>
     <string name="delete">Delete</string>
+    <string name="destination_home">Home</string>
     <string name="dob_format">DD-MM-YYYY</string>
     <string name="edit">Edit</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="emergency">EMERGENCY</string>
+    <string name="emergency_active">Emergency Active</string>
     <string name="emergency_active_message">Police called. SMS + location sent to contacts.</string>
     <string name="emergency_active_title">EMERGENCY ACTIVE</string>
     <string name="emergency_alert_description">Your emergency contacts will be alerted</string>
     <string name="emergency_contacts">Emergency Contacts</string>
     <string name="emergency_contacts_registered">Emergency Contacts Registered ✓</string>
     <string name="emergency_instruction">Press either button to alert emergency contacts instantly</string>
+    <string name="emergency_sms_sent">Emergency SMS sent to %d contacts</string>
     <string name="emergency_trigger_failed">Emergency trigger failed</string>
     <string name="emergency_triggered">Emergency alert triggered</string>
     <string name="empty_contacts_message">Add at least 3 trusted contacts to activate emergency mode</string>
@@ -126,6 +139,10 @@
     <string name="microphone_permission_required">Microphone permission required</string>
     <string name="min_contacts_required">You must add at least 3 contacts</string>
     <string name="next">NEXT</string>
+    <string name="no_check_ins_yet">No check-ins yet</string>
+    <string name="no_help_me">NO, HELP ME</string>
+    <string name="notification_action_safe">I\'m Safe</string>
+    <string name="notification_action_stop">Stop Tracking</string>
     <string name="notification_description">Receive emergency alerts and status updates</string>
     <string name="notification_permission">Notifications</string>
     <string name="ok">OK</string>
@@ -146,6 +163,9 @@
     <string name="required">Required</string>
     <string name="resend_code">Didn\'t receive code? Resend</string>
     <string name="resend_in">Resend in %1$d seconds</string>
+    <string name="response_no">NO</string>
+    <string name="response_timeout">TIMEOUT</string>
+    <string name="response_yes">YES</string>
     <string name="save">Save</string>
     <string name="save_back">SAVE &amp; BACK</string>
     <string name="save_danger_phrase">Save phrase</string>
@@ -158,17 +178,30 @@
     <string name="sign_up">SIGN UP</string>
     <string name="sms_description">Send emergency SMS to contacts</string>
     <string name="sms_permission">SMS</string>
+    <string name="start">Start</string>
+    <string name="start_tracking_confirm_message">Check-ins every 7 minutes.</string>
+    <string name="start_tracking_confirm_title">Start live tracking?</string>
+    <string name="status_emergency_triggered">Emergency Triggered</string>
+    <string name="status_safe">Safe</string>
     <string name="step_1_of_4">Step 1 of 4</string>
     <string name="step_2_of_4">Step 2 of 4</string>
     <string name="step_3_of_4">Step 3 of 4</string>
     <string name="step_4_of_4">Step 4 of 4</string>
     <string name="stop_listening">Stop Listening</string>
+    <string name="stop_tracking">STOP TRACKING</string>
     <string name="support_feedback">Support &amp; Feedback</string>
     <string name="tab_contacts">CONTACTS</string>
     <string name="tab_emergency">EMERGENCY</string>
     <string name="tab_settings">SETTINGS</string>
     <string name="terms_conditions">Terms &amp; Conditions</string>
     <string name="theme">Theme</string>
+    <string name="track_me_channel_name">Track Me</string>
+    <string name="track_me_home">TRACK ME HOME</string>
+    <string name="track_me_notification_eta">Check-in %1$d/%2$d complete | ETA: %3$s</string>
+    <string name="track_me_notification_text">Check-in %1$d/%2$d complete | Destination: Home</string>
+    <string name="track_me_notification_title">HelpNow - Tracking you safely</string>
+    <string name="track_me_subtext">Live tracking + periodic check-ins</string>
+    <string name="tracking_progress">Tracking progress</string>
     <string name="verify">VERIFY</string>
     <string name="verify_code">VERIFY CODE</string>
     <string name="verify_identity">Verify Your Identity</string>
@@ -186,6 +219,13 @@
     <string name="voice_sos_detected">VOICE SOS DETECTED</string>
     <string name="voice_verified">Voice verified - emergency confirmed</string>
     <string name="voiceprint_saved">Voiceprint saved ✓</string>
+    <string name="welcome_home">Welcome home! Tracking stopped safely ✓</string>
     <string name="will_be_alerted">✓ Will be alerted</string>
+    <string name="yes_im_safe">YES, I\'M SAFE</string>
     <string name="your_live_location">Your Live Location</string>
+    <style name="Theme.HelpNow" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/track_me_green</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
 </resources>

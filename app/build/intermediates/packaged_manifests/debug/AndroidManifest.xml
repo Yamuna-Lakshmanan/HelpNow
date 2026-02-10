@@ -8,18 +8,29 @@
         android:minSdkVersion="24"
         android:targetSdkVersion="34" />
 
+    <!-- Permissions from BOTH branches, duplicates removed -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.SEND_SMS" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
+    <!-- Foreground Service Permissions from BOTH branches -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+
+    <!-- Features from BOTH branches -->
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
     <uses-feature
         android:name="android.hardware.location"
         android:required="false" />
@@ -46,23 +57,29 @@
     <uses-permission android:name="com.helpnow.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 
     <application
+        android:name="com.helpnow.HelpNowApplication"
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
         android:extractNativeLibs="false"
+        android:icon="@drawable/ic_launcher_foreground"
         android:label="@string/app_name"
+        android:roundIcon="@drawable/ic_launcher_foreground"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        android:testOnly="true"
+        android:theme="@style/Theme.HelpNow" >
         <activity
             android:name="com.helpnow.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+            android:theme="@style/Theme.HelpNow" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Components from the 'main' branch -->
         <activity
             android:name="com.helpnow.screens.EmergencyActiveScreen"
             android:exported="false"
@@ -80,6 +97,12 @@
             android:name="com.helpnow.voice.VoiceListenerService"
             android:exported="false"
             android:foregroundServiceType="microphone" />
+
+        <!-- Component from the 'venish' branch -->
+        <service
+            android:name="com.helpnow.trackme.TrackMeService"
+            android:exported="false"
+            android:foregroundServiceType="location" />
 
         <activity
             android:name="androidx.activity.ComponentActivity"

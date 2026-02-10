@@ -10,7 +10,7 @@ import com.helpnow.R
 import com.helpnow.utils.SharedPreferencesManager
 
 /**
- * Emergency trigger - POLICE CALL is primary. HARDCODED police number 9176074517.
+ * Emergency trigger - POLICE CALL is primary. HARDCODED police number 8807659591.
  * NOT user configurable - security + safety.
  */
 class EmergencyTriggerManager(private val context: Context) {
@@ -19,7 +19,7 @@ class EmergencyTriggerManager(private val context: Context) {
         private const val TAG = "EmergencyTrigger"
         const val ACTION_EMERGENCY_TRIGGERED = "com.helpnow.EMERGENCY_TRIGGERED"
         /** HARDCODED POLICE NUMBER - NEVER CHANGE - NOT USER CONFIGURABLE */
-        private const val POLICE_NUMBER = "9176074517"
+        private const val POLICE_NUMBER = "8807659591"
     }
 
     private val prefsManager = SharedPreferencesManager.getInstance(context)
@@ -125,7 +125,8 @@ class EmergencyTriggerManager(private val context: Context) {
             ║ SMS + Location: SENT ✓
             ║ Emergency Screen: SHOWN ✓
             ╚════════════════════════════════════╝
-        """.trimIndent()
+        """
+        .trimIndent()
         Log.i("IncidentLog", log)
     }
 

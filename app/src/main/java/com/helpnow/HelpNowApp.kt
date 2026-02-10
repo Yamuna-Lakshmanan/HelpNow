@@ -5,27 +5,15 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.helpnow.screens.*
+import com.helpnow.trackme.TrackMeViewModel
+import com.helpnow.ui.CheckInHistoryScreen
 import com.helpnow.utils.Constants
 import com.helpnow.utils.SharedPreferencesManager
-
-sealed class Screen(val route: String) {
-    object Login : Screen("login")
-    object PhoneVerification : Screen("phone_verification")
-    object OTPVerification : Screen("otp_verification")
-    object UserProfile : Screen("user_profile")
-    object EmergencyContacts : Screen("emergency_contacts")
-    object DangerPhraseConfig : Screen("danger_phrase_config")
-    object VoiceRegistration : Screen("voice_registration")
-    object Permissions : Screen("permissions")
-    object EmergencyHome : Screen("emergency_home")
-    object ContactsTab : Screen("contacts_tab")
-    object SettingsTab : Screen("settings_tab")
-    object Map : Screen("map")
-}
 
 @Composable
 fun HelpNowApp(
@@ -34,67 +22,64 @@ fun HelpNowApp(
     onInitializeVoiceListener: () -> Unit
 ) {
     var isEnglish by remember { mutableStateOf(true) }
-    var selectedTab by remember { mutableStateOf(0) }
     var phoneNumber by remember { mutableStateOf("") }
-    var userProfileData by remember { mutableStateOf<Map<String, String>?>(null) }
+    var userProfileData by remember { mutableStateOf<kotlin.collections.Map<String, String>?>(null) }
     var emergencyContacts by remember { mutableStateOf<List<com.helpnow.models.EmergencyContact>>(emptyList()) }
-    
-    val contactCount = remember { prefsManager.getEmergencyContacts().size }
-    
+
     NavHost(
         navController = navController,
-        startDestination = if (prefsManager.isUserLoggedIn()) Screen.EmergencyHome.route else Screen.Login.route,
+        startDestination = if (prefsManager.isUserLoggedIn()) EmergencyHome.route else Login.route,
         modifier = Modifier.fillMaxSize(),
         enterTransition = {
             fadeIn(animationSpec = tween(Constants.ANIMATION_DURATION_MEDIUM)) +
-            slideInHorizontally(
-                initialOffsetX = { it },
-                animationSpec = tween(Constants.ANIMATION_DURATION_MEDIUM)
-            )
+                    slideInHorizontally(
+                        initialOffsetX = { fullWidth -> fullWidth },
+                        animationSpec = tween(Constants.ANIMATION_DURATION_MEDIUM)
+                    )
         },
         exitTransition = {
             fadeOut(animationSpec = tween(Constants.ANIMATION_DURATION_MEDIUM)) +
-            slideOutHorizontally(
-                targetOffsetX = { -it },
-                animationSpec = tween(Constants.ANIMATION_DURATION_MEDIUM)
-            )
+                    slideOutHorizontally(
+                        targetOffsetX = { fullWidth -> -fullWidth },
+                        animationSpec = tween(Constants.ANIMATION_DURATION_MEDIUM)
+                    )
         }
     ) {
-        composable(Screen.Login.route) {
+        composable(Login.route) {
             LoginScreen(
                 onSignInClick = {
-                    navController.navigate(Screen.PhoneVerification.route)
+                    navController.navigate(PhoneVerification.route)
                 },
                 onSignUpClick = {
-                    navController.navigate(Screen.PhoneVerification.route)
+                    navController.navigate(PhoneVerification.route)
                 },
                 onLanguageToggle = { isEnglish = !isEnglish },
                 isEnglish = isEnglish
             )
         }
-        
-        composable(Screen.PhoneVerification.route) {
+
+        composable(PhoneVerification.route) {
             PhoneVerificationScreen(
                 onVerifyClick = { phone ->
                     phoneNumber = phone
-                    navController.navigate(Screen.OTPVerification.route)
+                    navController.navigate(OTPVerification.route)
                 },
                 onBackClick = { navController.popBackStack() }
             )
         }
-        
-        composable(Screen.OTPVerification.route) {
+
+        composable(OTPVerification.route) {
             OTPVerificationScreen(
                 phoneNumber = phoneNumber,
                 onVerifyClick = {
-                    navController.navigate(Screen.UserProfile.route)
+                    navController.navigate(UserProfile.route)
                 },
                 onBackClick = { navController.popBackStack() },
                 onResendClick = { }
             )
         }
-        
-        composable(Screen.UserProfile.route) {
+
+        composable(UserProfile.route) {
             UserProfileScreen(
                 onNextClick = { name, gender, dob, address, city ->
                     userProfileData = mapOf(
@@ -104,39 +89,39 @@ fun HelpNowApp(
                         "address" to address,
                         "city" to city
                     )
-                    navController.navigate(Screen.EmergencyContacts.route)
+                    navController.navigate(EmergencyContacts.route)
                 },
                 onBackClick = { navController.popBackStack() }
             )
         }
-        
-        composable(Screen.EmergencyContacts.route) {
+
+        composable(EmergencyContacts.route) {
             EmergencyContactsScreen(
                 onNextClick = { contacts ->
                     emergencyContacts = contacts
-                    navController.navigate(Screen.DangerPhraseConfig.route)
+                    navController.navigate(DangerPhraseConfig.route)
                 },
                 onBackClick = { navController.popBackStack() }
             )
         }
-        
-        composable(Screen.DangerPhraseConfig.route) {
+
+        composable(DangerPhraseConfig.route) {
             DangerPhraseConfigScreen(
-                onNextClick = { navController.navigate(Screen.VoiceRegistration.route) },
+                onNextClick = { navController.navigate(VoiceRegistration.route) },
                 onBackClick = { navController.popBackStack() }
             )
         }
-        
-        composable(Screen.VoiceRegistration.route) {
+
+        composable(VoiceRegistration.route) {
             VoiceRegistrationScreen(
                 onNextClick = {
-                    navController.navigate(Screen.Permissions.route)
+                    navController.navigate(Permissions.route)
                 },
                 onBackClick = { navController.popBackStack() }
             )
         }
-        
-        composable(Screen.Permissions.route) {
+
+        composable(Permissions.route) {
             PermissionsScreen(
                 onContinueClick = {
                     userProfileData?.let { data ->
@@ -151,72 +136,29 @@ fun HelpNowApp(
                     }
                     prefsManager.saveEmergencyContacts(emergencyContacts)
                     prefsManager.setLoggedIn(true)
-                    navController.navigate(Screen.EmergencyHome.route) {
-                        popUpTo(Screen.Login.route) { inclusive = true }
+                    navController.navigate(EmergencyHome.route) {
+                        popUpTo(Login.route) { inclusive = true }
                     }
                 },
                 onBackClick = { navController.popBackStack() },
                 onInitializeVoiceListener = onInitializeVoiceListener
             )
         }
-        
-        composable(Screen.EmergencyHome.route) {
+
+        composable(EmergencyHome.route) {
             EmergencyHomeScreen(
-                contactCount = prefsManager.getEmergencyContacts().size,
-                selectedTab = selectedTab,
-                onTabSelected = { tab ->
-                    selectedTab = tab
-                },
-                onSOSClick = {
-                },
-                onVoiceHelpClick = {
-                    onInitializeVoiceListener()
-                },
-                onContactsClick = {
-                    selectedTab = 1
-                },
-                onMapClick = {
-                    navController.navigate(Screen.Map.route)
-                },
-                onSettingsClick = {
-                    selectedTab = 2
-                },
-                onLanguageToggle = { isEnglish = !isEnglish },
-                isEnglish = isEnglish,
-                onLogout = {
-                    prefsManager.clearAllData()
-                    navController.navigate(Screen.Login.route) {
-                        popUpTo(Screen.EmergencyHome.route) { inclusive = true }
-                    }
-                }
+                navController = navController,
+                prefsManager = prefsManager,
+                onInitializeVoiceListener = onInitializeVoiceListener
             )
         }
-        
-        composable(Screen.ContactsTab.route) {
-            ContactsTabScreen(
-                onBackClick = {
-                    navController.popBackStack()
-                }
-            )
+
+        composable("check_in_history") {
+            val vm: TrackMeViewModel = viewModel()
+            CheckInHistoryScreen(checkIns = vm.getCheckInHistory())
         }
-        
-        composable(Screen.SettingsTab.route) {
-            SettingsTabScreen(
-                onBackClick = {
-                    navController.popBackStack()
-                },
-                onLanguageToggle = { isEnglish = !isEnglish },
-                isEnglish = isEnglish,
-                onLogout = {
-                    prefsManager.clearAllData()
-                    navController.navigate(Screen.Login.route) {
-                        popUpTo(Screen.EmergencyHome.route) { inclusive = true }
-                    }
-                }
-            )
-        }
-        
-        composable(Screen.Map.route) {
+
+        composable(Map.route) {
             MapScreen(
                 onBackClick = { navController.popBackStack() }
             )
