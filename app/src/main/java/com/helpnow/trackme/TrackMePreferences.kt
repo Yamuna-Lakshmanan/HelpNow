@@ -15,6 +15,7 @@ private const val KEY_CHECK_IN_COUNT = "check_in_count"
 private const val KEY_HOME_LAT = "home_lat"
 private const val KEY_HOME_LNG = "home_lng"
 private const val KEY_CHECK_IN_HISTORY = "check_in_history"
+private const val KEY_NEXT_CHECK_IN_TIME = "next_check_in_time"
 private const val MAX_HISTORY = 10
 
 class TrackMePreferences(context: Context) {
@@ -41,6 +42,14 @@ class TrackMePreferences(context: Context) {
     var homeLng: Double
         get() = prefs.getFloat(KEY_HOME_LNG, 0f).toDouble().takeIf { it != 0.0 } ?: 0.0
         set(value) = prefs.edit().putFloat(KEY_HOME_LNG, value.toFloat()).apply()
+
+    fun setNextCheckInTime(time: Long) {
+        prefs.edit().putLong(KEY_NEXT_CHECK_IN_TIME, time).apply()
+    }
+
+    fun getNextCheckInTime(): Long {
+        return prefs.getLong(KEY_NEXT_CHECK_IN_TIME, 0L)
+    }
 
     fun addCheckIn(checkIn: CheckIn) {
         val list = getCheckInHistory().toMutableList().apply { add(0, checkIn) }
@@ -83,6 +92,7 @@ class TrackMePreferences(context: Context) {
             .putBoolean(KEY_IS_TRACKING_ACTIVE, false)
             .putLong(KEY_TRACKING_START_TIME, 0L)
             .putInt(KEY_CHECK_IN_COUNT, 0)
+            .putLong(KEY_NEXT_CHECK_IN_TIME, 0L)
             .apply()
     }
 }

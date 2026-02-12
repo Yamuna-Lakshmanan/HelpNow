@@ -1,5 +1,7 @@
 package com.helpnow.screens
 
+import android.Manifest
+import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,14 +20,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.delay
-import com.helpnow.R
+import com.helpnow.app.R
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.platform.LocalContext
+import com.helpnow.utils.PermissionUtils
 
 /**
  * UI model for a permission explanation card.
- * This screen is for explanation only; no runtime permission requests are triggered.
  */
 data class PermissionUiItem(
     val titleResId: Int,
@@ -40,6 +44,30 @@ fun PermissionsScreen(
     onBackClick: () -> Unit,
     onInitializeVoiceListener: () -> Unit
 ) {
+    val context = LocalContext.current
+
+    var lastRequestHadDenials by remember { mutableStateOf(false) }
+
+    val permissionsToRequest = remember {
+        buildList {
+            addAll(PermissionUtils.REQUIRED_PERMISSIONS)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                add(PermissionUtils.PERMISSION_NOTIFICATIONS)
+            }
+        }.distinct()
+    }
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { result ->
+        val allGranted = permissionsToRequest.all { result[it] == true || PermissionUtils.checkPermission(context, it) }
+        lastRequestHadDenials = !allGranted
+        if (allGranted) {
+            onInitializeVoiceListener()
+            onContinueClick()
+        }
+    }
+
     val permissionsList = listOf(
         PermissionUiItem(
             titleResId = R.string.location_permission,
@@ -73,11 +101,8 @@ fun PermissionsScreen(
         )
     )
 
-    // Auto-navigate to Home after a short delay; clear this screen from back stack
-    LaunchedEffect(Unit) {
-        delay(1500L)
-        onInitializeVoiceListener()
-        onContinueClick()
+    val allGrantedNow by remember {
+        derivedStateOf { PermissionUtils.areAllRequiredPermissionsGranted(context) }
     }
 
     Column(
@@ -146,6 +171,38 @@ fun PermissionsScreen(
                     description = stringResource(id = item.descriptionResId),
                     isRequired = item.isRequired
                 )
+            }
+
+            item {
+                if (lastRequestHadDenials && !allGrantedNow) {
+                    Text(
+                        text = stringResource(id = R.string.grant_critical_permissions),
+                        fontSize = 13.sp,
+                        color = colorResource(id = R.color.error),
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
+                }
+            }
+
+            item {
+                Button(
+                    onClick = { launcher.launch(permissionsToRequest.toTypedArray()) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colorResource(id = R.color.primary)
+                    )
+                ) {
+                    Text(
+                        text = if (allGrantedNow) stringResource(id = R.string.enable_continue)
+                        else stringResource(id = R.string.enable_continue),
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = colorResource(id = R.color.white)
+                    )
+                }
             }
         }
     }

@@ -4,7 +4,7 @@
     "type": "PACKAGED_MANIFESTS",
     "kind": "Directory"
   },
-  "applicationId": "com.helpnow",
+  "applicationId": "com.helpnow.app",
   "variantName": "debug",
   "elements": [
     {

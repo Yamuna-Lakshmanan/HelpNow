@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.HelpNow" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/track_me_green</item>
-        <item name="android:navigationBarColor">@color/white</item>
-        <item name="android:windowLightStatusBar">false</item>
+
+    <!-- Base application theme. -->
+    <style name="Theme.HelpNow" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Production-ready attributes for status bar and navigation bar customization -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
+
+    <!-- Splash Screen Theme -->
+    <style name="Theme.App.Starting" parent="Theme.HelpNow">
+        <!-- This is a temporary change to get the build to pass. -->
+    </style>
+
 </resources>

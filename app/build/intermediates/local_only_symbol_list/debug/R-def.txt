@@ -10,6 +10,8 @@ color light_gray
 color primary
 color primary_dark
 color secondary
+color sos_gradient_center
+color sos_gradient_edge
 color sos_red
 color success
 color surface
@@ -75,6 +77,7 @@ string contact
 string contact_added
 string contact_name
 string contact_phone
+string contacts
 string contacts_alert_description
 string contacts_description
 string country_code
@@ -99,6 +102,7 @@ string emergency_contacts
 string emergency_contacts_registered
 string emergency_instruction
 string emergency_sms_sent
+string emergency_sos_button
 string emergency_trigger_failed
 string emergency_triggered
 string empty_contacts_message
@@ -134,6 +138,7 @@ string login_title
 string logout
 string logout_confirmation
 string male
+string map
 string max_contacts_reached
 string microphone_description
 string microphone_permission
@@ -179,6 +184,7 @@ string sign_in
 string sign_up
 string sms_description
 string sms_permission
+string sos
 string start
 string start_tracking_confirm_message
 string start_tracking_confirm_title
@@ -224,4 +230,5 @@ string welcome_home
 string will_be_alerted
 string yes_im_safe
 string your_live_location
+style Theme.App.Starting
 style Theme.HelpNow

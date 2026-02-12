@@ -15,6 +15,8 @@
     <color name="light_gray">#E0E0E0</color>
     <color name="black">#000000</color>
     <color name="sos_red">#FF5252</color>
+    <color name="sos_gradient_center">#FF5252</color>
+    <color name="sos_gradient_edge">#D32F2F</color>
 
     <!-- Colors from the 'venish' branch features -->
     <color name="track_me_green">#4CAF50</color>

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.helpnow.app-mergeDebugResources-58:/values-v17/values-v17.xml",
+            "outputFile": "com.helpnow.app-mergeDebugResources-66:/values-v17/values-v17.xml",
             "map": [
                 {
                     "source": "C:\\Users\\acer\\.gradle\\caches\\transforms-3\\1ae08651db4bbb07f10e1945a5f6d854\\transformed\\appcompat-1.6.1\\res\\values-v17\\values-v17.xml",

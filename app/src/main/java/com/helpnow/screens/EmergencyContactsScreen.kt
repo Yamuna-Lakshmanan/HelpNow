@@ -16,27 +16,35 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.helpnow.R
+import com.helpnow.app.R
+import com.helpnow.models.EmergencyContact
 import com.helpnow.utils.Constants
+import com.helpnow.utils.SharedPreferencesManager
 import com.helpnow.utils.ValidationUtils
 
 @Composable
 fun EmergencyContactsScreen(
-    onNextClick: (List<com.helpnow.models.EmergencyContact>) -> Unit,
+    onNextClick: (List<EmergencyContact>) -> Unit,
     onBackClick: () -> Unit
 ) {
+    val context = LocalContext.current
+    val prefsManager = remember { SharedPreferencesManager.getInstance(context) }
+    
     var contacts by remember { 
+        val saved = prefsManager.getEmergencyContacts()
         mutableStateOf(
-            mutableListOf(
-                com.helpnow.models.EmergencyContact("", "", Constants.RELATIONSHIP_FRIEND),
-                com.helpnow.models.EmergencyContact("", "", Constants.RELATIONSHIP_FRIEND),
-                com.helpnow.models.EmergencyContact("", "", Constants.RELATIONSHIP_FRIEND)
+            if (saved.isNotEmpty()) saved.toMutableList()
+            else mutableListOf(
+                EmergencyContact("", "", Constants.RELATIONSHIP_FRIEND),
+                EmergencyContact("", "", Constants.RELATIONSHIP_FRIEND),
+                EmergencyContact("", "", Constants.RELATIONSHIP_FRIEND)
             )
         )
     }
@@ -44,7 +52,7 @@ fun EmergencyContactsScreen(
     fun updateContact(index: Int, name: String? = null, phone: String? = null, relationship: String? = null) {
         val updated = contacts.toMutableList()
         val current = updated[index]
-        updated[index] = com.helpnow.models.EmergencyContact(
+        updated[index] = EmergencyContact(
             name = name ?: current.name,
             phone = phone ?: current.phone,
             relationship = relationship ?: current.relationship
@@ -55,7 +63,7 @@ fun EmergencyContactsScreen(
     fun addContact() {
         if (contacts.size < Constants.MAX_CONTACTS_ALLOWED) {
             contacts = contacts.toMutableList().apply {
-                add(com.helpnow.models.EmergencyContact("", "", Constants.RELATIONSHIP_FRIEND))
+                add(EmergencyContact("", "", Constants.RELATIONSHIP_FRIEND))
             }
         }
     }
@@ -69,7 +77,7 @@ fun EmergencyContactsScreen(
     }
     
     val validContacts = contacts.count { 
-        it.name.isNotBlank() && ValidationUtils.validatePhone(it.phone) 
+        it.name.isNotBlank() && ValidationUtils.validatePhone(it.phone ?: "") 
     }
     val canProceed = validContacts >= Constants.MIN_CONTACTS_REQUIRED
     
@@ -188,7 +196,7 @@ fun EmergencyContactsScreen(
                         )
                         
                         OutlinedTextField(
-                            value = contact.phone,
+                            value = contact.phone ?: "",
                             onValueChange = { 
                                 if (it.length <= Constants.PHONE_NUMBER_LENGTH && it.all { char -> char.isDigit() }) {
                                     updateContact(index, phone = it)
@@ -237,7 +245,7 @@ fun EmergencyContactsScreen(
                             }
                         }
                         
-                        if (contact.name.isNotBlank() && ValidationUtils.validatePhone(contact.phone)) {
+                        if (contact.name.isNotBlank() && ValidationUtils.validatePhone(contact.phone ?: "")) {
                             Text(
                                 text = stringResource(id = R.string.contact_added),
                                 fontSize = 12.sp,
@@ -280,8 +288,9 @@ fun EmergencyContactsScreen(
             Button(
                 onClick = {
                     val validContactsList = contacts.filter { 
-                        it.name.isNotBlank() && ValidationUtils.validatePhone(it.phone) 
+                        it.name.isNotBlank() && ValidationUtils.validatePhone(it.phone ?: "") 
                     }
+                    prefsManager.saveEmergencyContacts(validContactsList)
                     onNextClick(validContactsList)
                 },
                 modifier = Modifier
@@ -295,7 +304,7 @@ fun EmergencyContactsScreen(
                 enabled = canProceed
             ) {
                 Text(
-                    text = stringResource(id = R.string.next),
+                    text = if (prefsManager.isUserLoggedIn()) stringResource(id = R.string.save_back) else stringResource(id = R.string.next),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = colorResource(id = R.color.white)

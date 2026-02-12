@@ -68,6 +68,7 @@ object Constants {
     const val VOICE_PAUSE_DURATION_MS = 10_000L
     const val VOICE_SAMPLE_DURATION_MS = 10_000L
     const val VOICE_REGISTRATION_SAMPLES = 3
+    val DANGER_KEYWORDS = listOf("help", "danger", "emergency")
     const val EMERGENCY_DEMO_NUMBER = "9999999999"
     const val EMERGENCY_NUMBER = "112"
 }

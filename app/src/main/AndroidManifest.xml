@@ -2,30 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Permissions from BOTH branches, duplicates removed -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.SEND_SMS" />
-    <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-
-    <!-- Foreground Service Permissions from BOTH branches -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
-
-    <!-- Features from BOTH branches -->
-    <uses-feature android:name="android.hardware.telephony" android:required="false" />
-    <uses-feature android:name="android.hardware.location" android:required="false" />
-    <uses-feature android:name="android.hardware.microphone" android:required="false" />
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <application
         android:name="com.helpnow.HelpNowApplication"
@@ -34,11 +24,10 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_launcher_foreground"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HelpNow"
-        tools:targetApi="31">
+        android:theme="@style/Theme.App.Starting">
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.helpnow.app.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.HelpNow">
             <intent-filter>
@@ -47,30 +36,23 @@
             </intent-filter>
         </activity>
 
-        <!-- Components from the 'main' branch -->
         <activity
-            android:name=".screens.EmergencyActiveScreen"
+            android:name="com.helpnow.app.emergency.EmergencyActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:launchMode="singleTop" />
-        <activity
-            android:name=".voice.VoiceSosCancelActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:excludeFromRecents="true"
-            android:launchMode="singleInstance"
-            android:screenOrientation="portrait" />
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:theme="@style/Theme.HelpNow" />
+
         <service
-            android:name=".voice.VoiceListenerService"
+            android:name="com.helpnow.app.services.TrackMeService"
+            android:foregroundServiceType="location"
+            android:exported="false" />
+
+        <service
+            android:name="com.helpnow.app.voice.VoiceListenerService"
             android:foregroundServiceType="microphone"
             android:exported="false" />
 
-        <!-- Component from the 'venish' branch -->
-        <service
-            android:name=".trackme.TrackMeService"
-            android:foregroundServiceType="location"
-            android:exported="false" />
-            
     </application>
 
 </manifest>

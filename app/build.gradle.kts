@@ -54,4 +54,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("androidx.work:work-runtime-ktx:2.9.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    // For production performance and modern splash screen
+    implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation("androidx.profileinstaller:profileinstaller:1.3.1")
 }

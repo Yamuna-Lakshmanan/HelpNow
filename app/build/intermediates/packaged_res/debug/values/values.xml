@@ -10,6 +10,8 @@
     <color name="primary">#2196F3</color>
     <color name="primary_dark">#1976D2</color>
     <color name="secondary">#26A69A</color>
+    <color name="sos_gradient_center">#FF5252</color>
+    <color name="sos_gradient_edge">#D32F2F</color>
     <color name="sos_red">#FF5252</color>
     <color name="success">#4CAF50</color>
     <color name="surface">#F5F5F5</color>
@@ -74,11 +76,12 @@
     <string name="contact_added">✓ Added</string>
     <string name="contact_name">Contact Name</string>
     <string name="contact_phone">Phone Number</string>
+    <string name="contacts">Contacts</string>
     <string name="contacts_alert_description">Emergency contacts receive SMS + location link instantly</string>
     <string name="contacts_description">Add 3-5 trusted contacts. They will receive emergency alerts.</string>
     <string name="country_code">+91</string>
     <string name="current_coordinates">Current Coordinates</string>
-    <string name="danger_phrase_digit_required">Must end with digit 0-9</string>
+    <string name="danger_phrase_digit_required">Must be at least 5 characters</string>
     <string name="danger_phrase_hint">e.g. I\'m in danger, help me now</string>
     <string name="danger_phrase_label">Danger phrase</string>
     <string name="danger_section">Danger Section</string>
@@ -98,6 +101,7 @@
     <string name="emergency_contacts_registered">Emergency Contacts Registered ✓</string>
     <string name="emergency_instruction">Press either button to alert emergency contacts instantly</string>
     <string name="emergency_sms_sent">Emergency SMS sent to %d contacts</string>
+    <string name="emergency_sos_button">Tap SOS in emergency</string>
     <string name="emergency_trigger_failed">Emergency trigger failed</string>
     <string name="emergency_triggered">Emergency alert triggered</string>
     <string name="empty_contacts_message">Add at least 3 trusted contacts to activate emergency mode</string>
@@ -133,6 +137,7 @@
     <string name="logout">LOGOUT</string>
     <string name="logout_confirmation">Are you sure you want to logout?</string>
     <string name="male">Male</string>
+    <string name="map">Map</string>
     <string name="max_contacts_reached">Maximum 5 contacts allowed</string>
     <string name="microphone_description">Listen for danger keywords to activate emergency</string>
     <string name="microphone_permission">Voice Recognition</string>
@@ -141,8 +146,8 @@
     <string name="next">NEXT</string>
     <string name="no_check_ins_yet">No check-ins yet</string>
     <string name="no_help_me">NO, HELP ME</string>
-    <string name="notification_action_safe">I\'m Safe</string>
-    <string name="notification_action_stop">Stop Tracking</string>
+    <string name="notification_action_safe">YES, I\'M SAFE</string>
+    <string name="notification_action_stop">NO – SEND HELP</string>
     <string name="notification_description">Receive emergency alerts and status updates</string>
     <string name="notification_permission">Notifications</string>
     <string name="ok">OK</string>
@@ -178,6 +183,7 @@
     <string name="sign_up">SIGN UP</string>
     <string name="sms_description">Send emergency SMS to contacts</string>
     <string name="sms_permission">SMS</string>
+    <string name="sos">SOS</string>
     <string name="start">Start</string>
     <string name="start_tracking_confirm_message">Check-ins every 7 minutes.</string>
     <string name="start_tracking_confirm_title">Start live tracking?</string>
@@ -198,7 +204,7 @@
     <string name="track_me_channel_name">Track Me</string>
     <string name="track_me_home">TRACK ME HOME</string>
     <string name="track_me_notification_eta">Check-in %1$d/%2$d complete | ETA: %3$s</string>
-    <string name="track_me_notification_text">Check-in %1$d/%2$d complete | Destination: Home</string>
+    <string name="track_me_notification_text">Are you safe? Check-in %1$d of %2$d.</string>
     <string name="track_me_notification_title">HelpNow - Tracking you safely</string>
     <string name="track_me_subtext">Live tracking + periodic check-ins</string>
     <string name="tracking_progress">Tracking progress</string>
@@ -223,9 +229,12 @@
     <string name="will_be_alerted">✓ Will be alerted</string>
     <string name="yes_im_safe">YES, I\'M SAFE</string>
     <string name="your_live_location">Your Live Location</string>
-    <style name="Theme.HelpNow" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/track_me_green</item>
-        <item name="android:navigationBarColor">@color/white</item>
-        <item name="android:windowLightStatusBar">false</item>
+    <style name="Theme.App.Starting" parent="Theme.HelpNow">
+        
+    </style>
+    <style name="Theme.HelpNow" parent="Theme.Material3.DayNight.NoActionBar">
+        
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 </resources>

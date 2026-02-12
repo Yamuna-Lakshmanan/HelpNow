@@ -16,7 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.helpnow.R
+import com.helpnow.app.R
 import com.helpnow.data.CheckIn
 import com.helpnow.data.CheckInResponse
 import java.text.SimpleDateFormat

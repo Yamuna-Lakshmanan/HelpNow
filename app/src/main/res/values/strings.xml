@@ -99,7 +99,9 @@
 
     <!-- Main Emergency Home -->
     <string name="emergency">EMERGENCY</string>
+    <string name="sos">SOS</string>
     <string name="voice_help">VOICE</string>
+    <string name="emergency_sos_button">Tap SOS in emergency</string>
     <string name="emergency_instruction">Press either button to alert emergency contacts instantly</string>
     <string name="emergency_contacts_registered">Emergency Contacts Registered ✓</string>
     <string name="activate_emergency_mode">ACTIVATE EMERGENCY MODE?</string>
@@ -110,6 +112,7 @@
     <string name="tab_settings">SETTINGS</string>
 
     <!-- Contacts Tab -->
+    <string name="contacts">Contacts</string>
     <string name="emergency_contacts">Emergency Contacts</string>
     <string name="contacts_alert_description">Emergency contacts receive SMS + location link instantly</string>
     <string name="will_be_alerted">✓ Will be alerted</string>
@@ -135,6 +138,7 @@
     <string name="logout_confirmation">Are you sure you want to logout?</string>
 
     <!-- Map Screen -->
+    <string name="map">Map</string>
     <string name="your_live_location">Your Live Location</string>
     <string name="share_location">Share Location</string>
     <string name="current_coordinates">Current Coordinates</string>
@@ -175,7 +179,7 @@
     <string name="false_alarm_logged">False alarm recorded</string>
     <string name="danger_phrase_label">Danger phrase</string>
     <string name="danger_phrase_hint">e.g. I\'m in danger, help me now</string>
-    <string name="danger_phrase_digit_required">Must end with digit 0-9</string>
+    <string name="danger_phrase_digit_required">Must be at least 5 characters</string>
     <string name="save_danger_phrase">Save phrase</string>
 
     <!-- =============================================================== -->
@@ -193,10 +197,10 @@
     <!-- Notification -->
     <string name="track_me_channel_name">Track Me</string>
     <string name="track_me_notification_title">HelpNow - Tracking you safely</string>
-    <string name="track_me_notification_text">Check-in %1$d/%2$d complete | Destination: Home</string>
+    <string name="track_me_notification_text">Are you safe? Check-in %1$d of %2$d.</string>
     <string name="track_me_notification_eta">Check-in %1$d/%2$d complete | ETA: %3$s</string>
-    <string name="notification_action_stop">Stop Tracking</string>
-    <string name="notification_action_safe">I\'m Safe</string>
+    <string name="notification_action_stop">NO – SEND HELP</string>
+    <string name="notification_action_safe">YES, I\'M SAFE</string>
     <string name="tracking_progress">Tracking progress</string>
 
     <!-- Check-in overlay -->

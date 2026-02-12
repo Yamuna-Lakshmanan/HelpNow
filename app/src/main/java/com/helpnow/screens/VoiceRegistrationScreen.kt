@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import com.helpnow.R
+import com.helpnow.app.R
 import com.helpnow.utils.Constants
 import com.helpnow.utils.SharedPreferencesManager
 import com.helpnow.voice.VoiceprintMatcher

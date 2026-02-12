@@ -17,7 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.helpnow.R
+import com.helpnow.app.R
 import com.helpnow.utils.SharedPreferencesManager
 
 @Composable
@@ -31,8 +31,7 @@ fun DangerPhraseConfigScreen(
     var phrase by remember { mutableStateOf(prefsManager.getCustomDangerPhrase()) }
     var error by remember { mutableStateOf<String?>(null) }
 
-    val hasDigit = phrase.any { it.isDigit() }
-    val isValid = phrase.isNotBlank() && hasDigit
+    val isValid = phrase.trim().length >= 5
     val digitRequiredText = stringResource(id = R.string.danger_phrase_digit_required)
 
     Column(
@@ -51,7 +50,6 @@ fun DangerPhraseConfigScreen(
                 phrase = it
                 error = null
             },
-            hasDigit = hasDigit,
             error = error,
             onSave = {
                 if (!isValid) {
@@ -111,7 +109,6 @@ private fun HeaderSection(onBackClick: () -> Unit) {
 private fun ColumnScope.ContentSection(
     phrase: String,
     onPhraseChange: (String) -> Unit,
-    hasDigit: Boolean,
     error: String?,
     onSave: () -> Unit,
     isValid: Boolean
@@ -150,14 +147,9 @@ private fun ColumnScope.ContentSection(
                 label = { Text(stringResource(id = R.string.danger_phrase_label)) },
                 placeholder = { Text(stringResource(id = R.string.danger_phrase_hint)) },
                 singleLine = true,
-                isError = phrase.isNotEmpty() && !hasDigit,
-                supportingText = if (phrase.isNotEmpty() && !hasDigit) {
-                    {
-                        Text(
-                            text = stringResource(id = R.string.danger_phrase_digit_required),
-                            color = colorResource(id = R.color.error)
-                        )
-                    }
+                isError = phrase.isNotEmpty() && !isValid,
+                supportingText = if (phrase.isNotEmpty() && !isValid) {
+                    { Text(text = stringResource(id = R.string.danger_phrase_digit_required), color = colorResource(id = R.color.error)) }
                 } else null
             )
         }

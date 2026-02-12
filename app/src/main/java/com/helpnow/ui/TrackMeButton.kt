@@ -30,7 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.helpnow.R
+import com.helpnow.app.R
 
 @Composable
 fun TrackMeButton(
@@ -76,7 +76,8 @@ fun TrackMeButton(
                 text = if (isTracking) stringResource(R.string.stop_tracking) else stringResource(R.string.track_me_home),
                 color = Color.White,
                 fontSize = 16.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                maxLines = 1
             )
         }
         Spacer(modifier = Modifier.height(8.dp))

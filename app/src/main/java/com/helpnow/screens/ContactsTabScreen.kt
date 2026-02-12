@@ -23,7 +23,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.helpnow.R
+import com.helpnow.app.R
 import com.helpnow.utils.Constants
 import com.helpnow.utils.SharedPreferencesManager
 import com.helpnow.utils.ValidationUtils
@@ -181,7 +181,7 @@ fun ContactsTabScreen(
                         )
                         
                         OutlinedTextField(
-                            value = contact.phone,
+                            value = contact.phone ?: "",
                             onValueChange = { 
                                 if (it.length <= Constants.PHONE_NUMBER_LENGTH && it.all { char -> char.isDigit() }) {
                                     updateContact(index, phone = it)
@@ -230,7 +230,7 @@ fun ContactsTabScreen(
                             }
                         }
                         
-                        if (contact.name.isNotBlank() && ValidationUtils.validatePhone(contact.phone)) {
+                        if (contact.name.isNotBlank() && ValidationUtils.validatePhone(contact.phone ?: "")) {
                             Text(
                                 text = stringResource(id = R.string.will_be_alerted),
                                 fontSize = 12.sp,

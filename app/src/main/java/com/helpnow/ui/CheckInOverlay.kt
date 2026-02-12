@@ -35,10 +35,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.helpnow.R
+import com.helpnow.app.R
 import kotlinx.coroutines.delay
 import com.helpnow.data.CheckInResponse
-import com.helpnow.trackme.TrackMeServiceManager
+import com.helpnow.app.managers.TrackMeServiceManager
 import kotlin.math.max
 
 @Composable

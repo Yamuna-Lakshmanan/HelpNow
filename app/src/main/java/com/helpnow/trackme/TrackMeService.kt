@@ -20,9 +20,10 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
-import com.helpnow.MainActivity
-import com.helpnow.R
-import com.helpnow.trackme.TrackMePreferences
+import com.helpnow.app.MainActivity
+import com.helpnow.app.R
+import com.helpnow.app.utils.TrackMePreferences
+import com.helpnow.app.managers.TrackMeServiceManager
 import java.util.concurrent.atomic.AtomicLong
 
 /**
@@ -79,6 +80,8 @@ class TrackMeService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
             ACTION_STOP -> {
+                // Treat STOP as "NO – SEND HELP" during check-ins.
+                manager?.triggerEmergency()
                 stopTrackingAndStopSelf()
                 return START_NOT_STICKY
             }
@@ -132,7 +135,7 @@ class TrackMeService : Service() {
         val p = prefs ?: return
         val homeLat = p.homeLat
         val homeLng = p.homeLng
-        if (homeLat != 0.0 && homeLng != 0.0 && GeofenceManager.isWithinHomeRadius(lastKnownLat, lastKnownLng, homeLat, homeLng)) {
+        if (homeLat != 0.0 && homeLng != 0.0 && isWithinHomeRadius(lastKnownLat, lastKnownLng, homeLat, homeLng)) {
             manager?.onHomeReached()
             stopTrackingAndStopSelf()
             return
@@ -150,6 +153,12 @@ class TrackMeService : Service() {
             (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
                 .notify(NOTIFICATION_ID, buildNotification(count, kotlin.math.max(1, totalCheckIns)))
         } catch (_: Exception) { }
+    }
+
+    private fun isWithinHomeRadius(lat: Double, lng: Double, homeLat: Double, homeLng: Double): Boolean {
+        val results = FloatArray(1)
+        android.location.Location.distanceBetween(lat, lng, homeLat, homeLng, results)
+        return results[0] < 200 // 200 meters radius
     }
 
     private fun buildNotification(checkInDone: Int, totalCheckIns: Int): Notification {
@@ -190,7 +199,10 @@ class TrackMeService : Service() {
         } catch (_: Exception) { }
         locationCallback = null
         manager?.stopTracking()
-        stopForeground(true)
+        try {
+            // MinSdk >= 26 (>= N) so we can always use the non-deprecated API.
+            stopForeground(STOP_FOREGROUND_REMOVE)
+        } catch (_: Exception) { }
         stopSelf()
     }
 

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.helpnow.app-mergeDebugResources-58:/values-en-rXC/values-en-rXC.xml",
+            "outputFile": "com.helpnow.app-mergeDebugResources-66:/values-en-rXC/values-en-rXC.xml",
             "map": [
                 {
                     "source": "C:\\Users\\acer\\.gradle\\caches\\transforms-3\\9dd71152ac556dc80c9fe826812c309f\\transformed\\jetified-ui-release\\res\\values-en-rXC\\values-en-rXC.xml",

@@ -35,9 +35,14 @@ class SharedPreferencesManager private constructor(context: Context) {
         private const val KEY_FALSE_ALARMS_DATE = "falseAlarmsDate"
         private const val KEY_VOICE_SERVICE_STATUS = "voiceServiceStatus"
         private const val KEY_CUSTOM_DANGER_PHRASE = "customDangerPhrase"
+        private const val DEFAULT_DANGER_PHRASE = "I'm in danger 1"
         
         @Volatile
         private var INSTANCE: SharedPreferencesManager? = null
+        
+        fun init(context: Context) {
+            getInstance(context)
+        }
         
         fun getInstance(context: Context): SharedPreferencesManager {
             return INSTANCE ?: synchronized(this) {
@@ -215,11 +220,17 @@ class SharedPreferencesManager private constructor(context: Context) {
     }
     
     fun getCustomDangerPhrase(): String = try {
-        prefs.getString(KEY_CUSTOM_DANGER_PHRASE, "I'm in danger") ?: "I'm in danger"
-    } catch (e: Exception) { "I'm in danger" }
+        // Always return the latest persisted, trimmed value with a sensible default.
+        val value = prefs.getString(KEY_CUSTOM_DANGER_PHRASE, null)?.trim().orEmpty()
+        if (value.length >= 5) value else DEFAULT_DANGER_PHRASE
+    } catch (e: Exception) { DEFAULT_DANGER_PHRASE }
     
     fun saveCustomDangerPhrase(phrase: String) {
-        try { prefs.edit().putString(KEY_CUSTOM_DANGER_PHRASE, phrase.trim()).apply() } catch (e: Exception) { }
+        try {
+            val cleaned = phrase.trim()
+            if (cleaned.length < 5) return
+            prefs.edit().putString(KEY_CUSTOM_DANGER_PHRASE, cleaned).apply()
+        } catch (e: Exception) { }
     }
     
     fun incrementFalseAlarms() = incrementFalseAlarmsToday()
